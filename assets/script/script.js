@@ -131,7 +131,7 @@ function randomizeArray(randomArray, pwLength) {
   var generatedArray = randomArray
     .sort(() => Math.random() - Math.random())
     .slice(0, pwLength);
-  return generatedArray.join(" ");
+  return generatedArray;
 }
 
 //Function to generate a password with the user input.
@@ -150,19 +150,26 @@ function generatePassword() {
   }
   if (userOptions.specialChar === true) {
     possibleCharacters = possibleCharacters.concat(specialCharacters);
+  } else {
+    alert("You must pick one character type to generate a passowrd.");
+    return;
   }
 
   var guranteedCharacters = randomizeArray(
     possibleCharacters,
     userOptions.passwordLength
   );
+  //How
+  //    the
+  //          fuck
+  //                do
+  //                    I
+  //                        validate
+  //                                 the array
+  return guranteedCharacters.join(" ");
 }
-console.log(possibleCharacters);
-console.log(guranteedCharacters);
-console.log(results);
 
 var generateBtn = document.querySelector("#generate");
-
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
