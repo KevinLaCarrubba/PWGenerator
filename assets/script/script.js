@@ -140,7 +140,7 @@ function randomizeArray(randomArray, pwLength) {
   return generatedArray;
 }
 
-var possibleCharacters = {upper: [], lower:[], special:[], number:[]}
+var possibleCharacters = {};
 //Function to generate a password with the user input.
 function generatePassword() {
   var userOptions = getUserOptions();
@@ -169,23 +169,23 @@ function generatePassword() {
   }
   //Take the amount of true statments
   var numberOfCharTypes = Object.keys(possibleCharacters).length;
-  //Divde the length of the password by number of true statements to see how manny to take out of each array
+  //Divide the length of the password by number of true statements to see how manny to take out of each array
   var charSection = Math.floor(userOptions.passwordLength / numberOfCharTypes); 
 // console.log(possibleCharacters);
-var finalResultSet = [];  
-
-  
+var groupSet = [];  
   Object.keys(possibleCharacters).forEach((name) => {
     var element = possibleCharacters[name];
     var randomParts = randomizeArray[element, charSection];
-    finalResultSet.push(randomParts);
+    groupSet.push(randomParts);
   });
-
-var finalResult = finalResultSet[0].concat(finalResultSet[1]);
-finalResult = finalResult.concat(finalResultSet[2]);
-finalResult = finalResult.concat(finalResultSet[3]);
+  console.log(groupSet)
+ var finalResult = [];
+ groupSet.forEach((set) => {
+  finalResult.push(set);
+ });
+console.log(finalResult)
 var countArray = randomizeArray(finalResult, finalResult.length)
-
+console.log(countArray)
 return countArray.join(" ");
 }
 
