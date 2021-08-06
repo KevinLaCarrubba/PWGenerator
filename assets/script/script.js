@@ -84,6 +84,10 @@ function getUserOptions() {
   var passwordLength = prompt(
     "How many characters would you like the password to be ?, Enter a value between 8 and 128."
   );
+  if (passwordLength == null){
+    alert("Click generate to try again.")
+    return;
+  }
   //Set user input to integer. Run conditional statement to make sure it is an actual number. Run conditional statement to make sure it is larger than 8 and less tham 128.
   passwordLength = parseInt(passwordLength);
   if (isNaN(passwordLength)) {
@@ -95,14 +99,16 @@ function getUserOptions() {
       return writePassword();
     }
   }
+  
+  
 
   //Create an object to store userinput
   var userOptions = {
     passwordLength: passwordLength,
-    lowerCaseChar: [],
-    upperCaseChar: [],
-    specialChar: [],
-    numericalChar: [],
+    lowerCaseChar: false,
+    upperCaseChar: false,
+    specialChar: false,
+    numericalChar: false,
   };
   //Prompt to ask user if they would like to add lowercase characters.
   if (
@@ -134,39 +140,53 @@ function randomizeArray(randomArray, pwLength) {
   return generatedArray;
 }
 
+var possibleCharacters = {upper: [], lower:[], special:[], number:[]}
 //Function to generate a password with the user input.
 function generatePassword() {
   var userOptions = getUserOptions();
-  var results = [];
-  var possibleCharacters = [];
+ 
+
   if (userOptions.lowerCaseChar === true) {
-    possibleCharacters = possibleCharacters.concat(lowerCase);
+    possibleCharacters.lower = lowerCase;
   }
   if (userOptions.upperCaseChar === true) {
-    possibleCharacters = possibleCharacters.concat(upperCase);
+    possibleCharacters.upper = upperCase;
   }
   if (userOptions.numericalChar === true) {
-    possibleCharacters = possibleCharacters.concat(numericalCharacters);
+    possibleCharacters.number = numericalCharacters;
   }
   if (userOptions.specialChar === true) {
-    possibleCharacters = possibleCharacters.concat(specialCharacters);
-  } else {
+    possibleCharacters.special = specialCharacters;
+  }
+  if (
+    userOptions.lowerCaseChar !== true &&
+    userOptions.upperCaseChar !== true &&
+    userOptions.numericalChar !== true &&
+    userOptions.specialChar !== true
+  ) {
     alert("You must pick one character type to generate a passowrd.");
     return;
   }
+  //Take the amount of true statments
+  var numberOfCharTypes = Object.keys(possibleCharacters).length;
+  //Divde the length of the password by number of true statements to see how manny to take out of each array
+  var charSection = Math.floor(userOptions.passwordLength / numberOfCharTypes); 
+// console.log(possibleCharacters);
+var finalResultSet = [];  
 
-  var guranteedCharacters = randomizeArray(
-    possibleCharacters,
-    userOptions.passwordLength
-  );
-  //How
-  //    the
-  //          fuck
-  //                do
-  //                    I
-  //                        validate
-  //                                 the array
-  return guranteedCharacters.join(" ");
+  
+  Object.keys(possibleCharacters).forEach((name) => {
+    var element = possibleCharacters[name];
+    var randomParts = randomizeArray[element, charSection];
+    finalResultSet.push(randomParts);
+  });
+
+var finalResult = finalResultSet[0].concat(finalResultSet[1]);
+finalResult = finalResult.concat(finalResultSet[2]);
+finalResult = finalResult.concat(finalResultSet[3]);
+var countArray = randomizeArray(finalResult, finalResult.length)
+
+return countArray.join(" ");
 }
 
 var generateBtn = document.querySelector("#generate");
