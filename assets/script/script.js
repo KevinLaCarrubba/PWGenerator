@@ -194,9 +194,16 @@ var groupSet = [];
   finalResult.push(set);
  });
 console.log(finalResult)
-var countArray = randomizeArray(finalResult, finalResult.length)
-console.log(countArray)
-return countArray.flat().join("");
+finalResult.flat();
+var joinArrarys = Array.prototype.concat(...finalResult)
+console.log(joinArrarys)
+var theFinalArray = randomizeArray(joinArrarys, joinArrarys.length)
+for (const prop of Object.getOwnPropertyNames(possibleCharacters)) {
+  delete possibleCharacters[prop];
+}
+
+
+return theFinalArray.join("");
 }
 
 var generateBtn = document.querySelector("#generate");
