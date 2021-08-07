@@ -84,8 +84,8 @@ function getUserOptions() {
   var passwordLength = prompt(
     "How many characters would you like the password to be ?, Enter a value between 8 and 128."
   );
-  if (passwordLength == null){
-    alert("Click generate to try again.")
+  if (passwordLength == null) {
+    alert("Click generate to try again.");
     return;
   }
   //Set user input to integer. Run conditional statement to make sure it is an actual number. Run conditional statement to make sure it is larger than 8 and less tham 128.
@@ -99,8 +99,6 @@ function getUserOptions() {
       return writePassword();
     }
   }
-  
-  
 
   //Create an object to store userinput
   var userOptions = {
@@ -140,18 +138,15 @@ function randomizeArray(randomArray, Length) {
   return generatedArray;
 }
 
-
-
 var possibleCharacters = {};
 //Function to generate a password with the user input.
 function generatePassword() {
   var userOptions = getUserOptions();
   // console.log(userOptions)
- 
+  // debugger;
   if (userOptions.lowerCaseChar === true) {
     possibleCharacters.lower = lowerCase;
     // console.log(possibleCharacters.lower)
-
   }
   if (userOptions.upperCaseChar === true) {
     possibleCharacters.upper = upperCase;
@@ -179,32 +174,43 @@ function generatePassword() {
   var numberOfCharTypes = Object.keys(possibleCharacters).length;
   // console.log(numberOfCharTypes)
   //Divide the length of the password by number of true statements to see how manny to take out of each array
-  var charSection = Math.floor(userOptions.passwordLength / numberOfCharTypes); 
-  // console.log(charSection)
-// console.log(possibleCharacters);
-var groupSet = [];  
+  var multiplier = Math.floor(userOptions.passwordLength / numberOfCharTypes);
+  // console.log(multiplier)
+  // console.log(possibleCharacters);
+  var groupSet = [];
   Object.keys(possibleCharacters).forEach((name) => {
     var element = possibleCharacters[name];
-    var randomParts = randomizeArray(element, charSection);
+    var randomParts = randomizeArray(element, multiplier);
     groupSet.push(randomParts);
   });
-  // console.log(groupSet)
- var finalResult = [];
- groupSet.forEach((set) => {
-  finalResult.push(set);
- });
-// console.log(finalResult)
-//Join all the arrays
-var joinArrarys = Array.prototype.concat(...finalResult)
-// console.log(joinArrarys)
-//Shuffle the array
-var theFinalArray = randomizeArray(joinArrarys, joinArrarys.length)
 
+  var finalResult = [];
+  groupSet.forEach((set) => {
+    var pwFiller = [];
+    // if only 1 is selected
+    var joinedSet = set.join("");
+    if (groupSet.length === 1) {
+      for (var i = 0; i < userOptions.passwordLength; i++) {
+        pwFiller += joinedSet.charAt(Math.floor(Math.random() * set.length));
+      }
+    } else {
+      var currentSetMax = userOptions.passwordLength / numberOfCharTypes;
+      for (var i = 0; i < currentSetMax; i++) {
+        pwFiller += joinedSet.charAt(Math.floor(Math.random() * set.length));
+      }
+    }
+    finalResult.push(pwFiller);
+  });
 
-// console.log(theFinalArray)
+  //Join all the arrays
+  var joinArrays = finalResult.join().replaceAll(",", "").split("");
+  // console.log(joinArrays)
+  //Shuffle the array
+  var theFinalArray = randomizeArray(joinArrays, joinArrays.length);
 
+  // console.log(theFinalArray)
 
-return theFinalArray.join("");
+  return theFinalArray.join("");
 }
 
 var generateBtn = document.querySelector("#generate");
@@ -219,13 +225,3 @@ function writePassword() {
 }
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
-
-//get the passowrd length
-//Get the user options true or not
-//see how many user options are true 
-//divide password length by the amout of true options 
-//for ( i = 0 ; i <= password length; i ++)
-
-// if it is true add it to an array. 
-//randomize it that array 
-// var randomPossibleLower = randomizeArray (possibleCharacters.lower, possibleCharacters.lower.length);
