@@ -133,30 +133,37 @@ function getUserOptions() {
   return userOptions;
 }
 //Function to randomize an array
-function randomizeArray(randomArray, pwLength) {
+function randomizeArray(randomArray, Length) {
   var generatedArray = randomArray
     .sort(() => Math.random() - Math.random())
-    .slice(0, pwLength);
+    .slice(0, Length);
   return generatedArray;
 }
+
+
 
 var possibleCharacters = {};
 //Function to generate a password with the user input.
 function generatePassword() {
   var userOptions = getUserOptions();
+  console.log(userOptions)
  
-
   if (userOptions.lowerCaseChar === true) {
     possibleCharacters.lower = lowerCase;
+    console.log(possibleCharacters.lower)
+
   }
   if (userOptions.upperCaseChar === true) {
     possibleCharacters.upper = upperCase;
+    console.log(possibleCharacters.upper)
   }
   if (userOptions.numericalChar === true) {
     possibleCharacters.number = numericalCharacters;
+    console.log(possibleCharacters.number)
   }
   if (userOptions.specialChar === true) {
     possibleCharacters.special = specialCharacters;
+    console.log(possibleCharacters.special)
   }
   if (
     userOptions.lowerCaseChar !== true &&
@@ -167,15 +174,18 @@ function generatePassword() {
     alert("You must pick one character type to generate a passowrd.");
     return;
   }
+  console.log(possibleCharacters)
   //Take the amount of true statments
   var numberOfCharTypes = Object.keys(possibleCharacters).length;
+  console.log(numberOfCharTypes)
   //Divide the length of the password by number of true statements to see how manny to take out of each array
   var charSection = Math.floor(userOptions.passwordLength / numberOfCharTypes); 
+  console.log(charSection)
 // console.log(possibleCharacters);
 var groupSet = [];  
   Object.keys(possibleCharacters).forEach((name) => {
     var element = possibleCharacters[name];
-    var randomParts = randomizeArray[element, charSection];
+    var randomParts = randomizeArray(element, charSection);
     groupSet.push(randomParts);
   });
   console.log(groupSet)
@@ -186,7 +196,7 @@ var groupSet = [];
 console.log(finalResult)
 var countArray = randomizeArray(finalResult, finalResult.length)
 console.log(countArray)
-return countArray.join(" ");
+return countArray.flat().join("");
 }
 
 var generateBtn = document.querySelector("#generate");
@@ -198,3 +208,13 @@ function writePassword() {
 }
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
+
+//get the passowrd length
+//Get the user options true or not
+//see how many user options are true 
+//divide password length by the amout of true options 
+//for ( i = 0 ; i <= password length; i ++)
+
+// if it is true add it to an array. 
+//randomize it that array 
+// var randomPossibleLower = randomizeArray (possibleCharacters.lower, possibleCharacters.lower.length);
