@@ -146,24 +146,24 @@ var possibleCharacters = {};
 //Function to generate a password with the user input.
 function generatePassword() {
   var userOptions = getUserOptions();
-  console.log(userOptions)
+  // console.log(userOptions)
  
   if (userOptions.lowerCaseChar === true) {
     possibleCharacters.lower = lowerCase;
-    console.log(possibleCharacters.lower)
+    // console.log(possibleCharacters.lower)
 
   }
   if (userOptions.upperCaseChar === true) {
     possibleCharacters.upper = upperCase;
-    console.log(possibleCharacters.upper)
+    // console.log(possibleCharacters.upper)
   }
   if (userOptions.numericalChar === true) {
     possibleCharacters.number = numericalCharacters;
-    console.log(possibleCharacters.number)
+    // console.log(possibleCharacters.number)
   }
   if (userOptions.specialChar === true) {
     possibleCharacters.special = specialCharacters;
-    console.log(possibleCharacters.special)
+    // console.log(possibleCharacters.special)
   }
   if (
     userOptions.lowerCaseChar !== true &&
@@ -174,13 +174,13 @@ function generatePassword() {
     alert("You must pick one character type to generate a passowrd.");
     return;
   }
-  console.log(possibleCharacters)
+  // console.log(possibleCharacters)
   //Take the amount of true statments
   var numberOfCharTypes = Object.keys(possibleCharacters).length;
-  console.log(numberOfCharTypes)
+  // console.log(numberOfCharTypes)
   //Divide the length of the password by number of true statements to see how manny to take out of each array
   var charSection = Math.floor(userOptions.passwordLength / numberOfCharTypes); 
-  console.log(charSection)
+  // console.log(charSection)
 // console.log(possibleCharacters);
 var groupSet = [];  
   Object.keys(possibleCharacters).forEach((name) => {
@@ -188,19 +188,20 @@ var groupSet = [];
     var randomParts = randomizeArray(element, charSection);
     groupSet.push(randomParts);
   });
-  console.log(groupSet)
+  // console.log(groupSet)
  var finalResult = [];
  groupSet.forEach((set) => {
   finalResult.push(set);
  });
-console.log(finalResult)
-finalResult.flat();
+// console.log(finalResult)
+//Join all the arrays
 var joinArrarys = Array.prototype.concat(...finalResult)
-console.log(joinArrarys)
+// console.log(joinArrarys)
+//Shuffle the array
 var theFinalArray = randomizeArray(joinArrarys, joinArrarys.length)
-for (const prop of Object.getOwnPropertyNames(possibleCharacters)) {
-  delete possibleCharacters[prop];
-}
+
+
+// console.log(theFinalArray)
 
 
 return theFinalArray.join("");
@@ -209,6 +210,9 @@ return theFinalArray.join("");
 var generateBtn = document.querySelector("#generate");
 // Write password to the #password input
 function writePassword() {
+  //Clear object to alllow program to rerun
+  possibleCharacters = {};
+
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
   passwordText.value = password;
